@@ -11,17 +11,29 @@ on:
 # In build we can specify in which platform we want build our project (linux in common, at least Ubuntu)
 jobs:
     build:
+        # Disable our watch mode for tests
+        env:
+            # This is a built in feature of the Create React app test script
+            CI: true
+            PORT: 9000
+        # Run in different environments
+        strategy:
+            matrix:
+                # Build jobs to run in parallel through all of these steps
+                node-version: [18.x, 20.x] 
         runs-on: ubuntu-latest
         steps:
             # In GitHub Actions we have these premade actions
             # like checkout our scripts and if it is correct
             - uses: actions/checkout@v3
             # set up node, we can pass an option to specify the version of node
-            - name: Use Node.js version 20
+            - name: Use Node.js version ${{ matrix.node-version }}
               uses: actions/setup-node@v3
               with:
-                node-version: '20'
+                node-version: ${{ matrix.node-version }}
             # Run our own commands
             - run: npm install
             # Run our build on the FE code
             - run: npm run build --prefix client
+            # Test both client and server
+            - run: npm test
