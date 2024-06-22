@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'test') {
 const MONGO_URL = process.env.MONGO_URL
 
 // Event Emitter from mongoose, emits events when the connection is ready
-// 'open' event triggers just one time, for that reason we can just .once instead of .on
+// 'open' event triggers just one time, for that reason we can just set .once instead of .on
 mongoose.connection.once('open', ()=>{
     console.log('MongoDB connection ready!')
 })

@@ -62,6 +62,12 @@ describe('Launches API', () => {
     
     
             expect(response.body).toMatchObject(launchDataWithoutDate)
+            
+            // Delete the launch created
+            await request(app)
+                .delete(`/v1/launches/${response.body.flightNumber}`)
+                .expect('Content-Type', /json/)
+                .expect(200);
         })
     
         test('It should catch missing required properties', async ()=> {
