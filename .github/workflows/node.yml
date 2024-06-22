@@ -1,0 +1,28 @@
+name: NASA Project CI
+# Define different triggers with 'on', in this case at the moment to push
+# or create a PR which points out to master
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+# Here we will have the workflow as such, like build and deploy
+# build will run before than deploy
+# In build we can specify in which platform we want build our project (linux in common, at least Ubuntu)
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # In GitHub Actions we have these premade actions
+            # like checkout our scripts and if it is correct
+            - uses: actions/checkout@v3
+            # set up node, we can pass an option to specify the version of node
+            - name: Use Node.js version 20
+              uses: actions/setup-node@v3
+              with:
+                node-version: '20'
+            # Run our own commands
+            - run: npm install
+            # Run our build on the FE code
+            - run: npm run build --prefix client
+
