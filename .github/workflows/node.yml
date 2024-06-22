@@ -23,5 +23,6 @@ jobs:
                 node-version: '20'
             # Run our own commands
             - run: npm install
+            - run: npm install-client
             # Run our build on the FE code
             - run: npm run build --prefix client
